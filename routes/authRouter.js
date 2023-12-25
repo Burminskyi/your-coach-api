@@ -1,11 +1,17 @@
-const express = require('express');
+const express = require("express");
+
+const { validateBody, authenticate } = require("../middlewares");
+const { schemas } = require("../models/user")
+const ctrl = require("../controllers/auth")
+
 const authRouter = express.Router();
-// визначимо домашній роутер
-authRouter.get('/login', (req, res) => {
-res.send('Login success');
-});
-// визначимо роутер about
-authRouter.get('/register', (req, res) => {
-res.send('Registered');
-});
+
+authRouter.post("/register", validateBody(schemas.registerSchema), ctrl.register)
+
+authRouter.post("/login", validateBody(schemas.loginSchema), ctrl.login);
+
+authRouter.get("/current", authenticate, ctrl.getCurrent);
+
+authRouter.post("logout", authenticate, ctrl.logout);
+
 module.exports = authRouter;

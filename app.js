@@ -1,31 +1,30 @@
 const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
+require("dotenv").config();
 
 const authRouter = require("./routes/authRouter");
 
-require("dotenv").config();
 const app = express();
 
-app.use(express.json());
-
-app.use("/auth", authRouter);
-
-app.use((req, res, next) => {
-  console.log("Наше проміжне ПЗ");
-  next();
-});
-
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/contact", (req, res) => {
-  res.send("<h1>Contact page</h1>");
+app.use(logger(formatsLogger));
+app.use(cors());
+app.use(express.json());
+
+app.use("/auth", authRouter);
+
+app.use((req, res) => {
+  res.status(404).json({ message: "Not found" });
 });
 
-app.get("/contact/:id", (req, res) => {
-  res.send(`<h1>Contact</h1> Параметр: ${req.params.id}`);
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Server error" } = err;
+  res.status(status).json({ message });
 });
 
-app.listen(3000, () => {
-  console.log("Example app listening on port 3000!");
-});
+module.exports = app;
