@@ -1,11 +1,13 @@
 const express = require("express");
+
+const authRouter = require("./routes/authRouter");
+
+require("dotenv").config();
 const app = express();
-const authRouter= require('./routes/authRouter');
-
-app.use('/auth', authRouter);
-
 
 app.use(express.json());
+
+app.use("/auth", authRouter);
 
 app.use((req, res, next) => {
   console.log("Наше проміжне ПЗ");
