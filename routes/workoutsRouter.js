@@ -4,25 +4,25 @@ const { validateBody, isValidId, authenticate } = require("../middlewares");
 const { schemas } = require("../models/workout");
 const router = express.Router();
 
-router.get("/", authenticate, ctrls.getAllContacts);
+router.get("/", authenticate, ctrls.getAllWorkouts);
 
-router.get("/:id", authenticate, isValidId, ctrls.getContact);
+router.get("/:id", authenticate, isValidId, ctrls.getWorkout);
 
 router.post(
   "/",
   authenticate,
   validateBody(schemas.addSchema),
-  ctrls.addContact
+  ctrls.addWorkout
 );
 
-router.delete("/:id", authenticate, isValidId, ctrls.deleteContact);
+router.delete("/:id", authenticate, isValidId, ctrls.deleteWorkout);
 
 router.put(
   "/:id",
   authenticate,
   isValidId,
   validateBody(schemas.updateSchema),
-  ctrls.updateContact
+  ctrls.updateWorkout
 );
 
 router.patch(
