@@ -31,35 +31,6 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    userParams: [
-      {
-        date: {
-          type: Date,
-          required: true,
-        },
-        weight: {
-          type: Number,
-        },
-        chestCircumference: {
-          type: Number,
-        },
-        waistCircumference: {
-          type: Number,
-        },
-        hipCircumference: {
-          type: Number,
-        },
-        bicepsCircumference: {
-          type: Number,
-        },
-        calfCircumference: {
-          type: Number,
-        },
-        neckCircumference: {
-          type: Number,
-        },
-      },
-    ],
   },
   { versionKey: false, timestamps: true }
 );
@@ -81,22 +52,10 @@ const updateAvatarSchema = Joi.object({
   avatar: Joi.string().required(),
 });
 
-const updateParamsSchema = Joi.object({
-  date: Joi.date().required(),
-  weight: Joi.number().allow(null), // Разрешить null для тех параметров, которые не требуется обновлять
-  chestCircumference: Joi.number().allow(null),
-  waistCircumference: Joi.number().allow(null),
-  hipCircumference: Joi.number().allow(null),
-  bicepsCircumference: Joi.number().allow(null),
-  calfCircumference: Joi.number().allow(null),
-  neckCircumference: Joi.number().allow(null),
-});
-
 const schemas = {
   registerSchema,
   loginSchema,
   updateAvatarSchema,
-  updateParamsSchema,
 };
 
 const User = model("user", userSchema);
