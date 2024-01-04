@@ -5,6 +5,10 @@ const { handleMongooseError } = require("../helpers");
 
 const userParamsSchema = new Schema(
   {
+    date: {
+      type: Date,
+      required: true,
+    },
     age: {
       type: Number,
       required: true,
@@ -46,6 +50,7 @@ const userParamsSchema = new Schema(
 userParamsSchema.post("save", handleMongooseError);
 
 const addSchema = Joi.object({
+  date: Joi.date().required(),
   age: Joi.number().required(),
   height: Joi.number().required(),
   weight: Joi.number().required(), // Разрешить null для тех параметров, которые не требуется обновлять
